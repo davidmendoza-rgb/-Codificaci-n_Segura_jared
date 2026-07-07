@@ -1,0 +1,6 @@
+.env
+node_modules/
+server.key
+server.cert
+npm-debug.log
+package-lock.json
