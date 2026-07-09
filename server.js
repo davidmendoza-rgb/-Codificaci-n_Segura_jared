@@ -49,4 +49,8 @@ app.post(
   }
 );
 
+// Integración de rutas REST para tareas
+const tareasRouter = require('./routes/tareas');
+app.use('/api/tareas', tareasRouter);
+
 module.exports = app;

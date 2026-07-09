@@ -103,20 +103,13 @@ router.put(
   }
 );
 
-// DELETE /api/tareas/:id — eliminar
-router.delete('/:id', param('id').isInt(), validar, (req, res) => {
-  const eliminada = tareasModel.eliminar(Number(req.params.id));
-  if (!eliminada) return res.status(404).json({ error: 'Tarea no encontrada' });
-  res.status(204).send();
-});
-
 module.exports = router;
 ```
 
 Puntos a resaltar en la demo:
 
-- Cada verbo HTTP tiene un propósito claro: GET no modifica datos, POST crea, PUT actualiza, DELETE elimina.
-- Los códigos de estado comunican el resultado sin que el cliente tenga que leer el cuerpo de la respuesta: `201` = creado, `204` = eliminado sin contenido, `404` = no existe, `400` = petición inválida.
+- Cada verbo HTTP tiene un propósito claro: GET no modifica datos, POST crea, PUT actualiza.
+- Los códigos de estado comunican el resultado sin que el cliente tenga que leer el cuerpo de la respuesta: `201` = creado, `404` = no existe, `400` = petición inválida.
 - La validación (`express-validator`) que vieron en la Sesión 1 se reutiliza aquí.
 
 ### Conectar las rutas al servidor (`server.js`)
@@ -130,21 +123,28 @@ app.use('/api/tareas', tareasRouter);
 
 ### Documentar el API rápidamente
 
-- **Postman**: crear una colección con las 5 peticiones y exportarla como parte del entregable.
+- **Postman**: crear una colección con las 4 peticiones y exportarla como parte del entregable.
   - GET - listar todas las tareas
   - GET - listar tareas por id
   - POST - crear una tarea
   - PUT - actualizar una tarea
-  - DELETE - eliminar una tarea
 - **Swagger/OpenAPI** (opcional) instalar `swagger-ui-express` y `swagger-jsdoc` para generar documentación interactiva en `/api-docs`.
+
+## Reto de la sesión (actividad guiada del alumno)
+
+El único verbo que falta es `DELETE`:
+
+1. Agregar la ruta `DELETE /api/tareas/:id` en `routes/tareas.js`, usando `tareasModel.eliminar`.
+2. Debe responder `204` (sin contenido) si se eliminó correctamente, o `404` si el id no existe.
+3. Probarla en Postman y capturar evidencia (screenshot) de una eliminación exitosa y de un intento con id inexistente.
 
 ## Entregable y lista de cotejo
 
 | Criterio | Cumple |
 | --- | --- |
-| Existen los 5 verbos: GET (lista y por id), POST, PUT, DELETE | ☐ |
+| Existen los 4 verbos: GET (lista y por id), POST, PUT, DELETE | ☐ |
 | Cada respuesta usa el código de estado HTTP correcto | ☐ |
 | Las entradas de usuario (POST/PUT) están validadas | ☐ |
 | El API corre sobre el servidor seguro de la Sesión 1 (HTTPS, Helmet) | ☐ |
 | Existe una colección de Postman o documentación Swagger del API | ☐ |
-| El alumno puede explicar la diferencia entre 200, 201, 204, 400 y 404 | ☐ |
+| El alumno puede explicar la diferencia entre 200, 201, 400 y 404 | ☐ |
